@@ -13,7 +13,7 @@
     $totalResults = $playlist->pageInfo->totalResults;
     $pageToken = 'NOT_SET';
 
-        // Loops through the total amount of videos in the playlist.
+    // Loops through the total amount of videos in the playlist.
     for ($i=1; $i<$totalResults; $i+50) {
 
     	// Sets the pageToken to a default so it pulls the first 50 videos out first.
@@ -36,13 +36,17 @@
     	else  {
     		break;
     	}
+
+        //Foreach item take the title and videoId
     	foreach($playlist->items as $item) {
     		$str = $item->snippet->title;
     		$id = $item->snippet->resourceId->videoId;
 
+            // Substring the 'artist' name and use that as the array name
     		$substring = substr($str, 0, 5);
     		$substring = strtolower($substring);
 
+            // Put the song in the correct array
     		$artists[$substring][]=$id;
 
     	}
@@ -52,7 +56,4 @@
     file_put_contents("playlist.txt", $playlistFile);
 
     require_once('shufflePlayList.php');
-	/* $playlistFile = fopen("playlist.txt", "w");
-    $artistsToString = json_encode($artists);
-	fwrite($playlistFile, $artistsToString); */
 ?>
